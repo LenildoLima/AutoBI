@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "dataset_name": "string",
+    "rows": 0,
+    "columns": 0,
+    "generated_at": "ISO-8601",
+    "schema_detected": true
+  },
+
+  "schema": {
+    "dimensions": [
+      {
+        "name": "string",
+        "type": "categorical | temporal"
+      }
+    ],
+    "metrics": [
+      {
+        "name": "string",
+        "type": "numeric"
+      }
+    ]
+  },
+
+  "kpis": [
+    {
+      "label": "string",
+      "value": 0,
+      "format": "currency | number | percent"
+    }
+  ],
+
+  "charts": [
+    {
+      "id": "string",
+      "type": "line | bar | pie | area",
+      "title": "string",
+      "x": "column_name",
+      "y": "column_name",
+      "aggregation": "sum | avg | count",
+      "data": []
+    }
+  ],
+
+  "tables": [
+    {
+      "id": "string",
+      "title": "string",
+      "columns": ["string"],
+      "rows": []
+    }
+  ],
+
+  "filters": [
+    {
+      "field": "string",
+      "type": "categorical | date | numeric"
+    }
+  ]
+}

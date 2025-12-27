@@ -1,0 +1,90 @@
+Perfeito.
+Lista objetiva dos pontos-chave definidos até agora 👇
+
+✅ Pontos definidos / visão consolidada
+
+1️⃣ Dashboard único e dinâmico
+
+Uma única página
+
+Muda automaticamente conforme a base escolhida
+
+Nada de páginas fixas por tipo de dado
+
+2️⃣ Usuário escolhe a base de dados
+
+Upload ou seleção direto no dashboard
+
+Cada base pode ter colunas diferentes
+
+Sem schema fixo (data, valor, loja não são obrigatórios)
+
+3️⃣ Inteligência toda na API
+
+Front (Lovable) só renderiza
+
+API decide:
+
+o que analisar
+
+o que mostrar
+
+quais gráficos fazem sentido
+
+4️⃣ Arquitetura multiagente (6 agentes)
+
+Agente de ingestão (load_data)
+
+Agente de análise (analysis)
+
+Agente de gráficos (charts_agent)
+
+Agente de modelos/contratos (models)
+
+Agente orquestrador (main)
+
+Agente gerente (app / FastAPI)
+
+5️⃣ Cada agente com função única
+
+Agentes não se misturam
+
+Comunicação via dados (JSON / DataFrame tratado)
+
+6️⃣ Gráficos e KPIs gerados dinamicamente
+
+Quantidade variável
+
+Tipos variáveis
+
+Base decide, não o código fixo
+
+7️⃣ Lovable como renderizador inteligente
+
+Consome JSON dinâmico
+
+Constrói UI com base nas instruções
+
+Dashboard se “reconfigura”
+
+8️⃣ Projeto deixa de ser só vendas
+
+Vira analisador genérico de datasets
+
+Estilo Auto-BI / Power BI simplificado
+
+9️⃣ Valor de portfólio alto
+
+Demonstra arquitetura
+
+Demonstra visão de produto
+
+Demonstra integração real front + back
+
+10️⃣ Nada jogado fora
+
+Código atual evolui
+
+Não recomeça do zero
+
+📌 Visão alinhada e fechada até aqui.
