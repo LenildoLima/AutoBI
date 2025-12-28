@@ -1,4 +1,4 @@
-# load_data.py
+# autoBi/src/load_data.py
 
 import pandas as pd
 from typing import Tuple, Dict, List

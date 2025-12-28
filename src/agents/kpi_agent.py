@@ -1,27 +1,22 @@
-# kpi_agent.py
+# autoBi/src/agents/kpi_agent.py
 
 def gerar_kpis(df):
-    kpis = []
-
+    kpis_formatados = []
+    
     numericas = df.select_dtypes(include=["int", "float"]).columns
-    temporais = df.select_dtypes(include=["datetime64[ns]"]).columns
-
+    
     for col in numericas:
-        kpis.append({
-            "field": col,
-            "sum": round(float(df[col].sum()), 2),
-            "avg": round(float(df[col].mean()), 2),
-            "min": round(float(df[col].min()), 2),
-            "max": round(float(df[col].max()), 2)
+        valor_total = float(df[col].sum())
+        
+        # Lógica simples para decidir o formato
+        formato = "currency" if "receita" in col or "preco" in col or "valor" in col else "number"
+        
+        kpis_formatados.append({
+            "label": f"Total de {col.replace('_', ' ').title()}",
+            "value": round(valor_total, 2),
+            "format": formato
         })
 
-    for col in temporais:
-        kpis.append({
-            "field": col,
-            "min": str(df[col].min().date()),
-            "max": str(df[col].max().date())
-        })
-
-    return {"kpis": kpis}
+    return {"kpis": kpis_formatados}
 
 
