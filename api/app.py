@@ -7,7 +7,7 @@ import os
 import uuid
 import sys
 
-# 🔹 Adiciona o root do projeto ao path para achar main.py
+# 🔹 Adiciona o root do projeto ao path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.main import run
 
@@ -16,10 +16,10 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# 🔹 CORS (necessário para Lovable, frontend, ngrok, etc.)
+# 🔹 CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # depois podemos restringir
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -27,7 +27,6 @@ app.add_middleware(
 
 UPLOAD_DIR = "data/uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
-
 
 # ======================================================
 # 🔹 ROTAS BÁSICAS
@@ -40,39 +39,32 @@ def root():
         "message": "API Multiagente ativa"
     }
 
-
 # ======================================================
-# 🔹 ROTA EXISTENTE (mantida)
+# 🔹 ROTA DE UPLOAD (COMPATÍVEL COM LOVABLE)
 # ======================================================
 
 @app.post("/analisar")
-def analisar_arquivo(arquivo: UploadFile = File(...)):
+def analisar_arquivo(file: UploadFile = File(...)):
     """
-    Recebe um arquivo (CSV por enquanto),
-    salva temporariamente e devolve análise completa.
+    Recebe um arquivo CSV enviado pelo frontend (Lovable),
+    salva temporariamente e devolve a análise completa.
     """
-    nome_arquivo = f"{uuid.uuid4()}_{arquivo.filename}"
+
+    nome_arquivo = f"{uuid.uuid4()}_{file.filename}"
     caminho_arquivo = os.path.join(UPLOAD_DIR, nome_arquivo)
 
     with open(caminho_arquivo, "wb") as f:
-        shutil.copyfileobj(arquivo.file, f)
+        shutil.copyfileobj(file.file, f)
 
     resultado = run(caminho_arquivo)
-
     return resultado
 
-
 # ======================================================
-# 🔹 NOVAS ROTAS PARA O LOVABLE (AUTO BI)
+# 🔹 ROTAS PARA O AUTO BI
 # ======================================================
 
 @app.get("/datasets")
 def listar_datasets():
-    """
-    Lista datasets disponíveis para o dashboard.
-    Por enquanto são exemplos fixos.
-    No futuro: banco, múltiplos uploads, histórico.
-    """
     return {
         "datasets": [
             {
@@ -82,23 +74,15 @@ def listar_datasets():
         ]
     }
 
-
 @app.get("/datasets/{dataset_id}/analysis")
 def analisar_dataset(dataset_id: str):
-    if not os.path.exists(UPLOAD_DIR):
-        return {"error": "Diretório de uploads não existe."}
-        
-    arquivos = [f for f in os.listdir(UPLOAD_DIR) if f.endswith('.csv')]
+    arquivos = [f for f in os.listdir(UPLOAD_DIR) if f.endswith(".csv")]
 
     if not arquivos:
         return {"error": "Nenhum arquivo CSV disponível. Envie um arquivo primeiro."}
 
-    # Pega o arquivo mais recente
     arquivos.sort(key=lambda x: os.path.getmtime(os.path.join(UPLOAD_DIR, x)))
     caminho_arquivo = os.path.join(UPLOAD_DIR, arquivos[-1])
 
-    try:
-        resultado = run(caminho_arquivo)
-        return resultado # Retornando o JSON limpo, sem a vírgula
-    except Exception as e:
-        return {"error": f"Erro ao processar análise: {str(e)}"}
+    resultado = run(caminho_arquivo)
+    return resultado
